@@ -3,11 +3,6 @@ const { schemas, Contact } = require("../../models/contact");
 
 const updateStatus = async (req, res, next) => {
   try {
-    const { error } = schemas.updateFavoriteSchema.validate(req.body);
-    if (error) {
-      res.status(400).json({ message: error.details[0].message });
-      return;
-    }
     const { contactId } = req.params;
     const result = await Contact.findByIdAndUpdate(
       contactId,

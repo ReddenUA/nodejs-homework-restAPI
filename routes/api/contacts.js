@@ -7,7 +7,7 @@ router.get("/", ctrl.getAll);
 
 router.get("/:contactId", isValidId, ctrl.getById);
 
-router.post("/", ctrl.add);
+router.post("/",addContactValidation, ctrl.add);
 
 router.delete("/:contactId", isValidId, ctrl.removeById);
 
