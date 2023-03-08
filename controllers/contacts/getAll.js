@@ -1,31 +1,41 @@
 const { Contact } = require("../../models");
+const createError = require("http-errors");
 
-const getAll = async (req, res) => {
-  const { _id } = req.user;
-  const { page = 1, limit = 20, favorite } = req.query;
-  const skip = (page - 1) * limit;
+const getAll = async (req, res, next) => {
+  try {
+    const { page, limit, favorite } = req.query;
 
-  const contacts = await Contact.find({ owner: _id }, "-createdAt -updatedAt", {
-    skip,
-    limit: Number(limit),
-  }).populate("owner", "_id name email");
+    const skip = (page - 1) * limit;
 
-  if (favorite) {
-    const favoriteContacts = contacts.filter(
-      (contact) => contact.favorite === true
-    );
+    const { _id } = req.user;
+    await Contact.aggregate([
+      {
+        $match: {
+          favorite,
+        },
+      },
+    ]);
+
+    const allContacts = await Contact.find(
+      { owner: _id, favorite },
+      "-createdAt -updatedAt",
+      {
+        skip,
+        limit: +limit,
+      }
+    ).populate("owner", "_id email subscription");
+    if (!allContacts.length) {
+      throw createError(404, `No contacts, please try later.`);
+    }
 
     res.json({
-      total: favoriteContacts.length,
-      data: favoriteContacts,
+      status: "Success",
+      code: 200,
+      result: allContacts,
     });
-    return;
+  } catch (error) {
+    next(error);
   }
-
-  res.json({
-    total: contacts.length,
-    data: contacts,
-  });
 };
 
 module.exports = getAll;
