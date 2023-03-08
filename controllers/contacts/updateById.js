@@ -1,3 +1,12 @@
+<<<<<<< HEAD
+const { NotFound } = require("http-errors");
+const { schemas, Contact } = require("../../models/contact");
+
+const updateById = async (req, res, next) => {
+  try {
+    const { contactId } = req.params;
+    const result = await Contact.findByIdAndUpdate(contactId, req.body, {new:true});
+=======
 const { updateContact } = require("../../models/contacts");
 const { NotFound } = require("http-errors");
 const contactSchema = require("../../schemas/contact");
@@ -11,6 +20,7 @@ const updateById = async (req, res, next) => {
     }
     const { contactId } = req.params;
     const result = await updateContact(contactId, req.body);
+>>>>>>> master
     if (!result) {
       throw new NotFound(`Contact with id=${contactId} not found`);
     }

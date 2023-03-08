@@ -10,7 +10,11 @@ const formatsLogger = app.get("env") === "development" ? "dev" : "short";
 
 app.use(logger(formatsLogger));
 app.use(cors());
+<<<<<<< HEAD
+app.use(express.urlencoded({ extended: false }));
+=======
 // app.use(express.urlencoded({ extended: false }));
+>>>>>>> master
 app.use(express.json());
 
 app.use("/api/contacts", contactsRouter);
