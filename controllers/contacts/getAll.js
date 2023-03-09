@@ -1,17 +1,26 @@
-<<<<<<< HEAD
-const { Contact } = require("../../models/contact");
+const { Contact } = require("../../models");
+const createError = require("http-errors");
 
 const getAll = async (req, res, next) => {
   try {
-    const contacts = await Contact.find({}, "-createdAt -updatedAt");
-=======
-const { listContacts } = require("../../models/contacts");
+    const { page, limit, favorite } = req.query;
+ const skip = (page - 1) * limit;
+const { _id } = req.user;
+    const allContacts = await Contact.find(
+      { owner: _id},
+      "",
+      {
+        skip,
+        limit: +limit,
+      }
+    ).populate("owner", "_id email subscription");
+  
 
-const getAll = async (req, res, next) => {
-  try {
-    const contacts = await listContacts();
->>>>>>> master
-    res.json(contacts);
+    res.json({
+      status: "Success",
+      code: 200,
+      result: allContacts,
+    });
   } catch (error) {
     next(error);
   }
