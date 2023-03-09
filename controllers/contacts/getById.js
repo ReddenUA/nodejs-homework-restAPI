@@ -3,13 +3,11 @@ const createError = require("http-errors");
 
 const getById = async (req, res, next) => {
   try {
-    const { contactId } = req.params;
-    const contactById = await Contact.findById(
-      contactId,
-      "-createdAt -updatedAt"
-    );
-    if (!contactById) {
-      throw createError(404, `Not found id:${contactId}`);
+    const owner = req.user._id;
+    const _id = ObjectId(req.params.id);
+    const contact = await Contact.findOne({ owner, _id });
+    if (!contact) {
+      return null;
     }
     res.json({
       status: "Success",
