@@ -13,7 +13,7 @@ const router = express.Router();
 
 router.get("/", authMiddleware, ctrlWrapper(ctrl.getAll));
 
-router.get("/:contactId", isValidId, ctrlWrapper(ctrl.getById));
+router.get("/:contactId", authMiddleware, isValidId, ctrlWrapper(ctrl.getById));
 
 router.post(
   "/",
