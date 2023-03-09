@@ -22,10 +22,11 @@ router.post(
   ctrlWrapper(ctrl.add)
 );
 
-router.delete("/:contactId", isValidId, ctrlWrapper(ctrl.removeById));
+router.delete("/:contactId",authMiddleware,  isValidId, ctrlWrapper(ctrl.removeById));
 
 router.put(
   "/:contactId",
+  authMiddleware,
   validation(schemas.addJoiSchema),
   isValidId,
   ctrlWrapper(ctrl.updateById)
@@ -33,6 +34,7 @@ router.put(
 
 router.patch(
   "/:contactId/favorite",
+  authMiddleware,
   validation(schemas.updateFavoriteSchema),
   isValidId,
   ctrlWrapper(ctrl.updateStatus)
