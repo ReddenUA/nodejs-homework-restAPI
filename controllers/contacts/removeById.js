@@ -5,7 +5,7 @@ const removeById = async (req, res, next) => {
   try {
     const owner = req.user._id;
     const _id = req.params.id;
-    const result = await Contact.findByIdAndRemove({ owner, _id });
+    const result = await Contact.findOneAndRemove({_id: id, owner:_id});
     if (!result) {
       const { error } = new Error(`Contact with id=${_id} not found`);
       throw error;
