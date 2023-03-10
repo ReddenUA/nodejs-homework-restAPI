@@ -42,7 +42,7 @@ const updateFavoriteSchema = Joi.object({
 const addJoiSchema = Joi.object({
   name: Joi.string().alphanum().required(),
   email: Joi.string().email().required(),
-  phone: Joi.string().regex(isPhoneRegex).required(),
+  phone: Joi.string().regex(phoneRegex).required(),
   favorite: Joi.bool(),
 });
 

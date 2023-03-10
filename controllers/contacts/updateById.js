@@ -21,4 +21,4 @@ const update = async (req, res, next) => {
   }
 };
 
-module.exports = updateById;
+module.exports = update;
