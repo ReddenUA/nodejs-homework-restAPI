@@ -10,7 +10,7 @@ const resizeImage = async (imagePath, movePath, imageName) => {
   const resultUpload = path.join(movePath, imageName);
   await fs.rename(imagePath, resultUpload);
 
-  return path.join(movePath, imageName);
+  return path.join(`http://localhost:${PORT}/avatars/${fileName}`);
 };
 
 module.exports = resizeImage;
